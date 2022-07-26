@@ -131,29 +131,5 @@ async def get_message(message: types.Message):
     else:
         await bot.send_message(chat_id=chat_id, text="Йди геть!")
 
-    # if message.text == "gg" or message.text == "GG":
-    #     sent_message = await bot.send_message(chat_id=chat_id, text="NO GG")
-    #     await bot.send_video(chat_id=chat_id, video="https://c.tenor.com/2jZjeGLb0McAAAAM/gg-no-re-rematch.gif")
-    #     print(sent_message.to_python())
-    # elif message.text == "Хто я?":
-    #     sent_message = await bot.send_message(chat_id=chat_id, text="Ви")
-    #     await bot.send_message(chat_id=chat_id,
-    #                            text=f"{sent_message.chat.full_name}\nваш псекдонім {sent_message.chat.username}\nІ "
-    #                                 f"ваш ID {sent_message.chat.id}")
-    # elif message.text == "BAN":
-    #     num = 0
-    #     for i in range(1, 111111111111111111111111):
-    #         try:
-    #             num += 1
-    #             await bot.send_message(chat_id=chat_id, text=f"num => {num}")
-    #         except:
-    #             print("ERROR")
-    #             sleep(11)
-    # else:
-    #     sent_message = await bot.send_message(chat_id=chat_id, text=f'Я не розумію команду \"{message.text}\"')
-    #     print(
-    #         f'Ім\'я людини= {sent_message.chat.first_name}\nПсекдонім людини= {sent_message.chat.username}\n'
-    #         f'ID людини= {sent_message.chat.id}\nНезрозуміла команда \"{message.text}\"\n')
-
 
 executor.start_polling(gp)

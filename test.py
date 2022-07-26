@@ -6,6 +6,7 @@ from aiogram.utils import executor
 from time import sleep
 
 # Створення бота і глобального списку
+bot = Bot(token="Bot token")
 gp = Dispatcher(bot)
 global users_way
 users_way = {}
@@ -78,6 +79,9 @@ async def get_message(message: types.Message):
                     await bot.send_message(chat_id=chat_id, text=videos)
                 except:
                     await bot.send_message(chat_id=chat_id, text="Файлів нема!")
+            case ['@dir', '@back']:
+                del users_way[chat_id]
+                await bot.send_message(chat_id=chat_id, text="Бекап зроблений")
             case ['@dir', way]:
                 try:
                     print("TRY:")

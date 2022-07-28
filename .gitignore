@@ -3,3 +3,7 @@
 *.iml
 *.png
 *.jpg
+config.py
+*.pyc
+*.mp4
+*.webm

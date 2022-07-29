@@ -1,7 +1,10 @@
 import os
 
 from aiogram import types, Dispatcher
+
 from create_bot import bot
+import config as cnf
+
 global users_way
 users_way = {}
 
@@ -69,7 +72,13 @@ async def file_explorer(message: types.Message):
                             except:
                                 del users_way[user_id]
                                 await bot.send_message(chat_id=chat_id, text='Етап(2) Бекап зроблений через можливу помилку!')
+            case _:
+                message_text = message.text.lower()
+                for word in cnf.WORDS:
+                    if word in message_text:
+                        await message.delete()
 
 # Функція регістрації file_explorer
-def register_handlers_command_dir(gp : Dispatcher):
-    gp.register_message_handler(file_explorer)
+def register_handler_command_dir(dp : Dispatcher):
+    dp.register_message_handler(file_explorer)
+

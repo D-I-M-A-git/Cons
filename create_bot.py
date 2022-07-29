@@ -3,4 +3,4 @@ import config as cfg
 
 # Створення бота і глобального списку
 bot = Bot(token=cfg.TOKEN)
-gp = Dispatcher(bot)
+dp = Dispatcher(bot)

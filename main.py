@@ -14,4 +14,4 @@ command_start_help.register_handler_help(dp)
 command_dir.register_handler_command_dir(dp)
 
 if __name__ == "__main__":
-    executor.start_polling(dp)
+    executor.start_polling(dp, skip_updates= True)

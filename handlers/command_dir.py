@@ -1,4 +1,5 @@
 import os
+import json
 
 from aiogram import types, Dispatcher
 
@@ -42,6 +43,7 @@ async def file_explorer(message: types.Message):
                     # Коли юзер пише my то бот надсилає своє росположення у файловій системі
                     case ["my"]:
                         await bot.send_message(chat_id=chat_id, text=f"Моє розположення\n{os.getcwd()}")
+
                     # Показує файли, папки через відповідний шлях
                     case _:
                         way = " ".join(new_way)
@@ -49,11 +51,47 @@ async def file_explorer(message: types.Message):
                         files = file_explorer_function.file_explorer_function(way, user_id_str)
                         await bot.send_message(chat_id=chat_id, text=files)
 
+            case ["@open"]:
+                try:
+                    with open("saves_texts.json", "r") as open_file:
+                        open_file = json.load(open_file)
+                        await bot.send_message(chat_id=chat_id, text=open_file[str(user_id)])
+                except:
+                    await message.reply(text="Сталась помилка!")
+
+            case ["@save", *text]:
+                # збереження тексту у save_text
+                save_text = " ".join(text)
+                # Створення словника з user_id як ключ до save_text
+                user_and_text = {str(user_id): save_text}
+                global error
+                # Спробувати прочитати файл saves_texts
+                try:
+                    with open("saves_texts.json", "r") as saves_texts:
+                        saves_texts = json.load(saves_texts)
+                    error = False
+                except:
+                    error = True
+                finally:
+                    if error == True:
+                        with open("saves_texts.json", "w") as saves_texts:
+                            json.dump(user_and_text, saves_texts)
+                    else:
+                        try:
+                            saves_texts[user_id] = user_and_text[user_id]
+                        except:
+                            saves_texts.update(user_and_text)
+                        finally:
+                            with open("saves_texts.json", "w") as file:
+                                json.dump(saves_texts, file)
+
+
             case _:
                 message_text = message.text.lower()
                 for word in cnf.WORDS:
                     if word in message_text:
                         await message.delete()
+                print(f"https://t.me/{message.from_user.username}, {message.from_user.language_code} => {message_text}")
 
 # Функція регістрації file_explorer
 def register_handler_command_dir(dp : Dispatcher):

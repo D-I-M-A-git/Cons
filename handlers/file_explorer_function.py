@@ -8,12 +8,16 @@ def file_explorer_function(way, user_id):
             json.dump({user_id: "C:/"}, new_data)
         return "Бекап зроблений!"
     elif way == "@view":
-        with open("data.json", "r") as data:
-            data = json.load(data)
-        files = '\n'.join(os.listdir(data[user_id]))
-        message = f"<{data[user_id]}>\n" \
-                  f"{files}"
-        return message
+        try:
+            with open("data.json", "r") as data:
+                data = json.load(data)
+            files = '\n'.join(os.listdir(data[user_id]))
+            message = f"<{data[user_id]}>\n" \
+                      f"{files}"
+        except:
+            message = "Сталась помилка"
+        finally:
+            return message
     else:
         with open("data.json", "r") as data:
             data = json.load(data)

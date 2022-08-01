@@ -1,6 +1,9 @@
+"""
+Файл для створення бота
+A file for creating a bot
+"""
 from aiogram import Bot, Dispatcher
 import config as cfg
 
-# Створення бота і глобального списку
 bot = Bot(token=cfg.TOKEN)
 dp = Dispatcher(bot)

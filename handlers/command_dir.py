@@ -61,9 +61,17 @@ async def file_explorer(message: types.Message):
 
                         # Коли юзер пише @image й ім'я зображення з розширенням
                         # то бот надсилає це зображення
-                        case ["image", file_name]:
-                            with open(f"media\\images\\{file_name}", "rb") as image:
-                                await bot.send_photo(chat_id=chat_id, photo=image)
+                        case ["image", *file_name]:
+                            try:
+                                with open(f"media\\images\\{file_name}", "rb") as image:
+                                    await bot.send_photo(chat_id=chat_id, photo=image)
+                            except OSError:
+                                file_name = ' '.join(file_name)
+                                try:
+                                    with open(file_name, "rb") as image:
+                                        await bot.send_photo(chat_id=chat_id, photo=image)
+                                except FileNotFoundError:
+                                    await message.reply(text="Вибачте сталась помилка!")
 
                         # Коли юзер пише my то бот надсилає своє росположення у файловій системі
                         case ["my"]:

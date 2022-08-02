@@ -15,6 +15,7 @@ async def report_command1(message: types.Message):
     with a link to the message with the report and the admin deals with the nasty person
     """
     if message.chat.id < 0:
+        await message.reply(text="Репорт надішлений!")
         await bot.send_message(chat_id=1909237932, text=f"Користувач {message.from_user.full_name} робить репорт\n"
                                                         f"{message.url}")
     else:
@@ -27,6 +28,7 @@ async def report_command2(message: types.Message):
     Similarly, only when writing !report
     """
     if message.chat.id < 0:
+        await message.reply(text="Репорт надішлений!")
         await bot.send_message(chat_id=1909237932, text=f"Користувач {message.from_user.full_name} робить репорт\n"
                                                         f"{message.url}")
     else:

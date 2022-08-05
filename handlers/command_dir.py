@@ -40,7 +40,6 @@ async def file_explorer(message: types.Message):
     user_id = message.from_user.id
     message_text = message.text.split()  # Розділення повідомлення в список
     for admin in cnf.ADMIN_ID:
-        print(admin, user_id)
         if admin == user_id:  # Перевірка що юзер той
             match message_text:
                 # Виконує команди після @dir
@@ -82,10 +81,26 @@ async def file_explorer(message: types.Message):
                             way = " ".join(new_way)
                             user_id_str = str(user_id)
                             files = file_explorer_function.file_explorer_function(way, user_id_str)
-                            await bot.send_message(chat_id=chat_id, text=files)
+                            if files[0]:
+                                text_message = files[1]
+                                way = text_message[0]
+                                del text_message[0]
+                                text_message = text_message[0]
+                                await bot.send_message(chat_id=chat_id, text=way)
+                                try:
+                                    await bot.send_message(chat_id=chat_id, text='\n'.join(text_message[:50]))
+                                    try:
+                                        await bot.send_message(chat_id=chat_id, text='\n'.join(text_message[50:]))
+                                    except:
+                                        pass
+                                except:
+                                    await bot.send_message(chat_id=chat_id, text="Файли не знайдені\nМожливо їх нема 😁")
+                            else:
+                                await bot.send_message(chat_id=chat_id, text=files[1])
+                            # await bot.send_message(chat_id=chat_id, text=files)
 
                 case _:
-                    print(message.text)
+                    pass
 
         else:
             match message_text:
@@ -114,6 +129,7 @@ async def file_explorer(message: types.Message):
                         if error:
                             with open("saves_texts.json", "w") as saves_texts:
                                 json.dump(user_and_text, saves_texts)
+                            await message.reply(text="Текст збережено!")
                         else:
                             try:
                                 saves_texts[user_id] = user_and_text[user_id]

@@ -45,32 +45,62 @@ async def file_explorer(message: types.Message):
                 # Виконує команди після @dir
                 case ['@dir', *new_way]:
                     match new_way:
-                        # Коли юзер пише @image txt то бот надсилає повідомлення файлів які знаходяться в media\image
-                        case ["image", "txt"]:
-                            images = '\n'.join(os.listdir(r"media\\images"))
-                            await bot.send_message(chat_id=chat_id, text=images)
+                        case ["image", *image_name]:
+                            match image_name:
+                                # Коли юзер пише @image txt то бот надсилає повідомлення файлів які знаходяться
+                                # в media\image
+                                case ["txt"]:
+                                    images = '\n'.join(os.listdir(r"media\\images"))
+                                    await bot.send_message(chat_id=chat_id, text=images)
 
-                        # Коли юзер пише @image img то бот надсилає файли які знаходяться в media\images
-                        # (головне щоб файли були формата .png .jpg і так далі не відео формата або інших)
-                        case ["image", "img"]:
-                            images = os.listdir(r"media\\images")
-                            for img_name in images:
-                                with open(f"media\\images\\{img_name}", "rb") as image:
-                                    await bot.send_photo(chat_id=chat_id, photo=image, caption=img_name)
+                                # Коли юзер пише @image img то бот надсилає файли які знаходяться в media\images
+                                # (головне щоб файли були формата .png .jpg і так далі не відео формата або інших)
+                                case ["img"]:
+                                    images = os.listdir(r"media\\images")
+                                    for img_name in images:
+                                        with open(f"media\\images\\{img_name}", "rb") as image:
+                                            await bot.send_photo(chat_id=chat_id, photo=image, caption=img_name)
 
-                        # Коли юзер пише @image й ім'я зображення з розширенням
-                        # то бот надсилає це зображення
-                        case ["image", *file_name]:
-                            try:
-                                with open(f"media\\images\\{file_name}", "rb") as image:
-                                    await bot.send_photo(chat_id=chat_id, photo=image)
-                            except OSError:
-                                file_name = ' '.join(file_name)
+                                # Коли юзер пише @image й ім'я зображення з розширенням
+                                # то бот надсилає це зображення
+                                case [*file_name]:
+                                    try:
+                                        with open(f"media\\images\\{file_name}", "rb") as image:
+                                            await bot.send_photo(chat_id=chat_id, photo=image)
+                                    except OSError:
+                                        file_name = ' '.join(file_name)
+                                        result = file_explorer_function.get_way(str(user_id))
+                                        if result[0]:
+                                            try:
+                                                with open(result[1] + file_name, "rb") as image:
+                                                    await bot.send_photo(chat_id=chat_id, photo=image)
+                                            except FileNotFoundError:
+                                                await message.reply(text="Вибачте сталась помилка!")
+                                            except OSError:
+                                                try:
+                                                    with open(file_name, "rb") as image:
+                                                        await bot.send_photo(chat_id=chat_id, photo=image)
+                                                except FileNotFoundError:
+                                                    await message.reply(text="Вибачте сталась помилка!")
+                                        else:
+                                            try:
+                                                with open(file_name, "rb") as image:
+                                                    await bot.send_photo(chat_id=chat_id, photo=image)
+                                            except FileNotFoundError:
+                                                await message.reply(text="Вибачте сталась помилка!")
+
+                        case ["text", *text]:
+                            text = ' '.join(text)
+                            result = file_explorer_function.get_way(str(user_id))
+                            if result[0]:
                                 try:
-                                    with open(file_name, "rb") as image:
-                                        await bot.send_photo(chat_id=chat_id, photo=image)
+                                    with open(result[1] + text, "r", encoding="utf-8") as data:
+                                        text_in_file = data.read()
+                                        await message.reply(text=text_in_file)
                                 except FileNotFoundError:
-                                    await message.reply(text="Вибачте сталась помилка!")
+                                    await message.reply(text="Файл не знайдений")
+                            else:
+                                await message.reply(text=result[1])
 
                         # Коли юзер пише my то бот надсилає своє росположення у файловій системі
                         case ["my"]:

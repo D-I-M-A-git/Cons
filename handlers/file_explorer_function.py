@@ -42,3 +42,23 @@ def file_explorer_function(way, user_id):
             return [True, message]
         except FileNotFoundError:
             return [False, f'Сталась помилка!\n<{data[user_id]}>']
+
+
+def get_way(user_id):
+    """
+    Функція для получення шляху у файловій системі
+    A function to get the path in the file system
+
+    :param user_id: Потрібно для получення шляху. Needed to get a path
+    :return: шлях. Way
+    """
+    global way
+    try:
+        with open("data.json", "r") as data:
+            data = json.load(data)
+        way = data[user_id]
+        way = [True, way]
+    except FileNotFoundError:
+        way = [False, "Файл data.json не знайдений"]
+    finally:
+        return way

@@ -13,7 +13,6 @@ from handlers import command_report
 from handlers import command_search
 
 logging.basicConfig(level=logging.INFO)
-print('START BOT')
 
 command_search.register_handler_help(dp)
 command_report.register_handler_report(dp)

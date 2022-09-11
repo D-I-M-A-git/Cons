@@ -22,6 +22,7 @@ async def help(message: types.Message):
                    "КОМАНДИ ДЛЯ ЗВИЧАЙНИХ ЛЮДЕЙ:\n" \
                    "    /start, /help: Показати це повідомлення\n" \
                    "    /report або !report: Надіслати у відповідь на негарне повідомлення\n" \
+                   "    /search <текст>: Пошук в Wikipedia\n" \
                    "    @save <текст>: Зберегти повідомлення\n" \
                    "    @open: Показати збережене повідомлення"
     await bot.send_message(chat_id=chat_id, text=help_message)

@@ -1,10 +1,6 @@
 
-*.xml
-*.iml
-*.png
-*.jpg
 config.py
 *.pyc
-*.mp4
-*.webm
 *.json
+.venv
+test

@@ -20,6 +20,7 @@
 """
 import os
 import json
+import logging
 
 from aiogram import types, Dispatcher
 
@@ -173,13 +174,8 @@ async def file_explorer(message: types.Message):
             for word in cnf.WORDS:
                 if word in message_text:
                     await message.delete()
-            print(f"https://t.me/{message.from_user.username}, {message.from_user.language_code}, "
-                  f"{message.from_user.id}, "
-                  f"@{message.from_user.username}, "
-                  f"{message.from_user.full_name}, "
-                  f"chat id={chat_id}"
-                  f" => "
-                  f"{message_text}")
+            msg = f"https://t.me/{message.from_user.username}, {message.from_user.language_code}, {message.from_user.id}, @{message.from_user.username}, {message.from_user.full_name}, chat id={chat_id} => {message_text}"
+            logging.info(msg=msg)
 
 
 def register_handler_command_dir(dp: Dispatcher):

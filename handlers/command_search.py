@@ -1,14 +1,18 @@
+import logging
+
 import wikipedia
-import translators as ts
+import translators.server as tss
 from aiogram import types, Dispatcher
 
 
 async def search(message: types.Message):
     await message.reply(text="Секунду...")
-    text = ts.google(message.text.replace("/search ", ""), to_language='en')
+    logging.info(message.text)
+    text = tss.google(message.text.replace("/search ", ""), to_language='en')
+    logging.info(text)
     await message.reply(text="Зараз буде готово!")
     try:
-        await message.reply(text=ts.google(wikipedia.summary(text), to_language='uk'))
+        await message.reply(text=tss.google(wikipedia.summary(text), to_language='uk'))
     except:
         await message.reply(text="Вибачте сталась помилка!")
 

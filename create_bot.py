@@ -3,7 +3,10 @@
 A file for creating a bot
 """
 from aiogram import Bot, Dispatcher
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
 import config as cfg
 
 bot = Bot(token=cfg.TOKEN)
-dp = Dispatcher(bot)
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage)

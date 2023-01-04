@@ -70,6 +70,8 @@ async def text(message: types.Message, state: FSMContext):
                 await bot.send_message(chat_id=chat_id, text=tss.youdao(text, to_language=data.get("language")))
             case "caiyun":
                 await bot.send_message(chat_id=chat_id, text=tss.caiyun(text, to_language=data.get("language")))
+            case _:
+                await bot.send_message(chat_id=chat_id, text="Вибраний вами перекладач не знайдений\nнапишіть !report або /report з рекомендацією щоб я добавив цей перекладач")
     except Exception as ex:
         await bot.send_message(chat_id=chat_id, text=f"Вибачте!\nСталася критична помилка.\n\nНазва помилки:{ex}")
     finally:

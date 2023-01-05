@@ -11,14 +11,21 @@ from states.translator import Translator as ts
 
 
 async def translation(message: types.Message):
+    """
+    Функція для запуску перекладача
+    Function to start the translator
+    """
     chat_id = message.chat.id
-    message_text = message.text
     await bot.send_message(chat_id=chat_id, text="Ви хочете використати перекладач?\nБудь ласка напишіть який перекладач ви хочере використати.")
 
     await ts.use.set()
 
 
 async def used_translator(message: types.Message, state: FSMContext):
+    """
+    Статус для вибору перекладача
+    Status for choosing a translator
+    """
     chat_id = message.chat.id
     use_translator = message.text.lower()
 
@@ -40,6 +47,10 @@ async def used_translator(message: types.Message, state: FSMContext):
 
 
 async def language(message: types.Message, state: FSMContext):
+    """
+    Статус для вибору мови
+    Status for language selection
+    """
     chat_id = message.chat.id
     language = message.text
 
@@ -52,6 +63,10 @@ async def language(message: types.Message, state: FSMContext):
 
 
 async def text(message: types.Message, state: FSMContext):
+    """
+    Статус для кінцевого перекладу
+    Status for final translation
+    """
     chat_id = message.chat.id
     text = message.text
 

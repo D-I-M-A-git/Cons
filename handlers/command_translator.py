@@ -52,7 +52,7 @@ async def language(message: types.Message, state: FSMContext):
     Status for language selection
     """
     chat_id = message.chat.id
-    language = message.text
+    language = message.text.lower()
 
     async with state.proxy() as data:
         data["language"] = language

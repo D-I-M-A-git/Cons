@@ -17,7 +17,9 @@ async def help(message: types.Message):
                    "    /search <текст>: Пошук в Wikipedia\n" \
                    "    @save <текст>: Зберегти повідомлення\n" \
                    "    @open: Показати збережене повідомлення\n" \
-                   "    /translate: Перекладач"
+                   "    /translate: Перекладач\n" \
+                   "    /weather: Дізнатися про погоду\n" \
+                   "    /weather !: Змінити місто"
     await bot.send_message(chat_id=chat_id, text=help_message)
 
 

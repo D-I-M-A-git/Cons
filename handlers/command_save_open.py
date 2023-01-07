@@ -23,7 +23,6 @@ import logging
 
 from aiogram import types, Dispatcher
 
-from create_bot import bot
 import config as cnf
 
 
@@ -53,7 +52,7 @@ async def save_open(message: types.Message):
                 with open("saves_texts.json", "r") as open_file:
                     open_file = json.load(open_file)
                     await message.reply(text=open_file[str(user_id)])
-            except (FileNotFoundError, KeyError):
+            except:
                 await message.reply(text="Сталась помилка!")
 
         case ["@save", *text]:

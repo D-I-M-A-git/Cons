@@ -14,8 +14,9 @@ from states.weather import Weather
 
 def get_weather(city):
     r = requests.get(url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}&units=metric")
+    print(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}&units=metric")
     weather_result = r.json()
-    match weather_result["cod"]:
+    match int(weather_result["cod"]):
         case 200:
             city_name = weather_result["name"]
             humidity = weather_result["main"]["humidity"]
@@ -32,6 +33,8 @@ def get_weather(city):
         case 404:
             return "Вибачте!\nНе вдалося получити дані про місто."
         case _:
+            print(type(weather_result["cod"]))
+            print(weather_result["cod"])
             return "Вибачте!\nСталася не відома помилка."
 
 async def weather(message: types.Message):
@@ -57,8 +60,11 @@ async def weather(message: types.Message):
 
 async def choose_city(message: types.Message, state: FSMContext):
     chat_id = message.chat.id
-    city = tss.google(message.text, to_language='en')
     await bot.send_message(chat_id=chat_id, text="Секунду...")
+    if message.text == "Гусятин":
+        city = "Husiatyn"
+    else:
+        city = tss.google(message.text, to_language='en')
     with open("weather.json", 'w') as weather:
         json.dump({message.from_user.id: city}, weather)
     

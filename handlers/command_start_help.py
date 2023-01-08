@@ -11,7 +11,7 @@ async def help(message: types.Message):
     :param message: для можливості проглянути chat_id, щоб знати куда надіслати повідомлення
     """
     chat_id = message.chat.id
-    help_message = "КОМАНДИ ДЛЯ ЗВИЧАЙНИХ ЛЮДЕЙ:\n" \
+    help_message = "КОМАНДИ:\n" \
                    "    /start, /help: Показати це повідомлення\n" \
                    "    /report або !report: Надіслати у відповідь на негарне повідомлення або для рекомендацій автору\n" \
                    "    /search <текст>: Пошук в Wikipedia\n" \

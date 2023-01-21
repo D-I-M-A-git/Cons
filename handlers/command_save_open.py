@@ -49,7 +49,7 @@ async def save_open(message: types.Message):
     match message_text:
         case ["@open"]:
             try:
-                with open("saves_texts.json", "r") as open_file:
+                with open("json/saves_texts.json", "r") as open_file:
                     open_file = json.load(open_file)
                     await message.reply(text=open_file[str(user_id)])
             except:
@@ -63,14 +63,14 @@ async def save_open(message: types.Message):
             global error
             # Спробувати прочитати файл saves_texts
             try:
-                with open("saves_texts.json", "r") as saves_texts:
+                with open("json/saves_texts.json", "r") as saves_texts:
                     saves_texts = json.load(saves_texts)
                 error = False
             except FileNotFoundError:
                 error = True
             finally:
                 if error:
-                    with open("saves_texts.json", "w") as saves_texts:
+                    with open("json/saves_texts.json", "w") as saves_texts:
                         json.dump(user_and_text, saves_texts)
                     await message.reply(text="Текст збережено!")
                 else:
@@ -79,7 +79,7 @@ async def save_open(message: types.Message):
                     except (NameError, KeyError):
                         saves_texts.update(user_and_text)
                     finally:
-                        with open("saves_texts.json", "w") as file:
+                        with open("json/saves_texts.json", "w") as file:
                             json.dump(saves_texts, file)
                         await message.reply(text="Текст збережено!")
     message_text = message.text.lower().split()

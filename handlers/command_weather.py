@@ -14,7 +14,7 @@ from states.weather import Weather
 
 def get_weather(city):
     r = requests.get(url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}&units=metric")
-    print(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}&units=metric")
+
     weather_result = r.json()
     match int(weather_result["cod"]):
         case 200:
@@ -45,7 +45,7 @@ async def weather(message: types.Message):
         await Weather.city.set()
     else:
         try:
-            with open("weather.json", 'r') as weather:
+            with open("json/weather.json", 'r') as weather:
                 weather_json = json.load(weather)
             error = False
         except:
@@ -65,7 +65,7 @@ async def choose_city(message: types.Message, state: FSMContext):
         city = "Husiatyn"
     else:
         city = tss.google(message.text, to_language='en')
-    with open("weather.json", 'w') as weather:
+    with open("json/weather.json", 'w') as weather:
         json.dump({message.from_user.id: city}, weather)
     
     await bot.send_message(chat_id=chat_id, text=get_weather(city))

@@ -19,7 +19,9 @@ async def help(message: types.Message):
                    "    @open: Показати збережене повідомлення\n" \
                    "    /translate: Перекладач\n" \
                    "    /weather: Дізнатися про погоду\n" \
-                   "    /weather !: Змінити місто"
+                   "    /weather !: Змінити місто\n" \
+                   "    /chat: Почати чат з ChatGPT (альфа версія)\n" \
+                   "    /rate: Курс валют вуд НБУ API"
     await bot.send_message(chat_id=chat_id, text=help_message)
 
 

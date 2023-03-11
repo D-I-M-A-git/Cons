@@ -17,6 +17,8 @@ command_start_help.register_handler_help(dp)
 command_translator.register_handler_translation(dp)
 command_weather.register_handler_weather(dp)
 command_games.register_handler_games(dp)
+command_rate.register_handler_rate(dp)
+command_chat.register_handler_chat(dp)
 command_save_open.register_handler_command_save_open(dp)
 
 if __name__ == "__main__":

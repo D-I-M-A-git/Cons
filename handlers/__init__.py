@@ -5,3 +5,5 @@ from handlers import command_search
 from handlers import command_translator
 from handlers import command_weather
 from handlers import command_games
+from handlers import command_rate
+from handlers import command_chat

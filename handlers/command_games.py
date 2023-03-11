@@ -106,6 +106,6 @@ def game_rock_paper_scissors_work(message_text, random_object):
     
 def register_handler_games(dp: Dispatcher):
     dp.register_message_handler(games, commands=["games"])
-    dp.register_message_handler(choose_game, state=Games.сhoose_game)
+    dp.register_message_handler(choose_game, state=Games.choose_game)
     dp.register_message_handler(game_rock_paper_scissors, state=Games.rock_paper_scissors)
     dp.register_message_handler(game_guess_number, state=Games.guess_number)

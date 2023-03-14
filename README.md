@@ -1,4 +1,4 @@
-# telegram-bot-aiogram
+# CONS
 This is a simple Telegram bot created for fun. This project is not serious
 
 # Preparation

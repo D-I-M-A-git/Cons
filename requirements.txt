@@ -1,4 +1,4 @@
 aiogram==2.24
-openai==0.26.5
+openai==0.27.0
 wikipedia==1.4.0
 translators==5.5.5

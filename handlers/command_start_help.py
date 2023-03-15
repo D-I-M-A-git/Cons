@@ -14,13 +14,13 @@ async def help(message: types.Message):
     help_message = "КОМАНДИ:\n" \
                    "    /start, /help: Показати це повідомлення\n" \
                    "    /report або !report: Надіслати у відповідь на негарне повідомлення або для рекомендацій автору\n" \
-                   "    /search <текст>: Пошук в Wikipedia\n" \
                    "    @save <текст>: Зберегти повідомлення\n" \
                    "    @open: Показати збережене повідомлення\n" \
                    "    /translate: Перекладач\n" \
                    "    /weather: Дізнатися про погоду\n" \
                    "    /weather !: Змінити місто\n" \
-                   "    /chat: Почати чат з ChatGPT (альфа версія)\n" \
+                   "    /chat: Почати чат з IvanGPT (альфа версія)\n" \
+                   "    /games: Міні ігри\n" \
                    "    /rate: Курс валют вуд НБУ API"
     await bot.send_message(chat_id=chat_id, text=help_message)
 

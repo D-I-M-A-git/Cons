@@ -11,7 +11,6 @@ from handlers import *
 
 logging.basicConfig(level=logging.INFO)
 
-command_search.register_handler_help(dp)
 command_report.register_handler_report(dp)
 command_start_help.register_handler_help(dp)
 command_translator.register_handler_translation(dp)

@@ -16,7 +16,8 @@ async def translation(message: types.Message):
     Function to start the translator
     """
     chat_id = message.chat.id
-    await bot.send_message(chat_id=chat_id, text="Ви хочете використати перекладач?\nБудь ласка напишіть який перекладач ви хочете використати.")
+    await bot.send_message(chat_id=chat_id, text="Ви хочете використати перекладач?\nБудь ласка напишіть який"
+                                                 " перекладач ви хочете використати.")
 
     await ts.use.set()
 
@@ -86,7 +87,9 @@ async def text(message: types.Message, state: FSMContext):
             case "caiyun":
                 await bot.send_message(chat_id=chat_id, text=tss.caiyun(text, to_language=data.get("language")))
             case _:
-                await bot.send_message(chat_id=chat_id, text="Вибраний вами перекладач не знайдений\nнапишіть !report або /report з рекомендацією щоб я добавив цей перекладач")
+                await bot.send_message(chat_id=chat_id, text="Вибраний вами перекладач не знайдений\nнапишіть !report"
+                                                             " або /report з рекомендацією щоб я добавив цей "
+                                                             "перекладач")
     except Exception as ex:
         await bot.send_message(chat_id=chat_id, text=f"Вибачте!\nСталася критична помилка.\n\nНазва помилки:{ex}")
     finally:

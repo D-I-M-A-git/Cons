@@ -86,7 +86,8 @@ async def save_open(message: types.Message):
     for word in cnf.WORDS:
         if word in message_text:
             await message.delete()
-    msg = f"https://t.me/{message.from_user.username}, {message.from_user.language_code}, {message.from_user.id}, @{message.from_user.username}, {message.from_user.full_name}, chat id={chat_id} => {message.text}"
+    msg = f"https://t.me/{message.from_user.username}, {message.from_user.language_code}, {message.from_user.id}," \
+          f" @{message.from_user.username}, {message.from_user.full_name}, chat id={chat_id} => {message.text}"
     logging.info(msg=msg)
 
 

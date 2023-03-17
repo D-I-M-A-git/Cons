@@ -41,7 +41,8 @@ async def weather(message: types.Message):
 
 
 def get_weather(city):
-    r = requests.get(url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}&units=metric")
+    r = requests.get(url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.WEATHER_TOKEN}"
+                         f"&units=metric")
 
     weather_result = r.json()
     match int(weather_result["cod"]):

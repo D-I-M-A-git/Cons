@@ -60,7 +60,6 @@ async def game_guess_number(message: types.Message, state: FSMContext):
             await bot.send_message(chat_id=chat_id, text="Напишіть число")
 
 
-
 async def game_rock_paper_scissors(message: types.Message, state: FSMContext):
     chat_id = message.chat.id
     message_text = message.text.lower()
@@ -74,7 +73,8 @@ async def game_rock_paper_scissors(message: types.Message, state: FSMContext):
                 int(message_text)
                 await bot.send_message(chat_id=chat_id, text=game_rock_paper_scissors_work(message_text, random_object))
             except:
-                await bot.send_message(chat_id=chat_id, text="Пишіть число або щоб вийти напишіть \"Вийти\"\nВиберіть число:\n1 - камінь\n2 - ножниці\n3 - папір")
+                await bot.send_message(chat_id=chat_id, text="Пишіть число або щоб вийти напишіть \"Вийти\"\n"
+                                                             "Виберіть число:\n1 - камінь\n2 - ножниці\n3 - папір")
 
 
 def game_rock_paper_scissors_work(message_text, random_object):

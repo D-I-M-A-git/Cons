@@ -26,10 +26,9 @@ def answer_chat(text):
         if "That model is currently overloaded with other requests." in ex:
             return f"Вибачте але зараз сервери перегруженні і вони не відповідають на запити."
         else:
-            return f"Вибачте але зараз виникла невідома помилка.\nСпробуйте повторити питання пізніше.\nОпис помилки: {ex}"
+            return f"Вибачте але зараз виникла невідома помилка.\n" \
+                   f"Спробуйте повторити питання пізніше.\nОпис помилки: {ex}"
     
-
-
 
 async def delete(callback_query: types.CallbackQuery):
     await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id)
@@ -50,7 +49,8 @@ async def chat(message: types.Message, state: FSMContext):
         await bot.send_message(chat_id=chat_id, text="Зачекайте будь ласка, це може зайнняти деякий час.")
         answer = answer_chat(message.text)
         try:
-            await bot.edit_message_text(chat_id=chat_id, message_id=message.message_id + 1, text=answer, reply_markup=keyboard, parse_mode=types.ParseMode.MARKDOWN)
+            await bot.edit_message_text(chat_id=chat_id, message_id=message.message_id + 1, text=answer,
+                                        reply_markup=keyboard, parse_mode=types.ParseMode.MARKDOWN)
             await state.finish()
         except:
             await bot.send_message(chat_id=chat_id, text=answer, reply_markup=keyboard)
@@ -59,13 +59,19 @@ async def chat(message: types.Message, state: FSMContext):
 
 async def warning_and_start_chat(message: types.Message):
     chat_id = message.chat.id
-    await bot.send_message(chat_id=chat_id,
-                           text="ПОПЕРЕДЖЕННЯ!\n"
-                                "Офіційний API який використовує автор є чуть-чуть глюканутий.\n"
-                                "А саме GPT може відповідати не правильно, криво і так далі.\n"
-                                "То вам рекомендується формулювати свої питання по різному.\n"
-                                "Добре задавайте своє питання.")
-    await Chat.warning_and_start_chat.set()
+    user_id = message.from_user.id
+    if user_id in config.PREMIUM_USERS:
+        await bot.send_message(chat_id=chat_id,
+                               text="ПОПЕРЕДЖЕННЯ!\n"
+                                    "Офіційний API який використовує автор є чуть-чуть глюканутий.\n"
+                                    "А саме GPT може відповідати не правильно, криво і так далі.\n"
+                                    "То вам рекомендується формулювати свої питання по різному.\n"
+                                    "Добре задавайте своє питання.")
+        await Chat.warning_and_start_chat.set()
+    else:
+        await bot.send_message(chat_id=chat_id,
+                               text="Вибачте але ви не в списку преміум користувачів!\n"
+                                    "Зверніться до автора щоб вас додали до цього списку.")
 
 
 def register_handler_chat(dp: Dispatcher):

@@ -47,18 +47,21 @@ def get_weather(city):
     weather_result = r.json()
     match int(weather_result["cod"]):
         case 200:
-            city_name = weather_result["name"]
-            humidity = weather_result["main"]["humidity"]
-            weather = tss.google(weather_result["weather"][0]["description"], to_language="uk")
-            temp = weather_result["main"]["temp"]
-            wind_speed = weather_result["wind"]["speed"]
-            text = f"Місто: {city_name}\n" \
-                   f"Вологість: {humidity}%\n" \
-                   f"Погода: {weather}\n" \
-                   f"Температура: {temp}°C\n" \
-                   f"Швидкість вітру: {wind_speed}"
-                    
-            return text
+            try:
+                city_name = weather_result["name"]
+                humidity = weather_result["main"]["humidity"]
+                weather = tss.google(weather_result["weather"][0]["description"], to_language="uk")
+                temp = weather_result["main"]["temp"]
+                wind_speed = weather_result["wind"]["speed"]
+                text = f"Місто: {city_name}\n" \
+                    f"Вологість: {humidity}%\n" \
+                    f"Погода: {weather}\n" \
+                    f"Температура: {temp}°C\n" \
+                    f"Швидкість вітру: {wind_speed}"
+                        
+                return text
+            except Exception as e:
+                return f"Вибачте але сталася помилка!\nСпробуйте пізніше або зверніться до автора.\n{e}"
         case 404:
             return "Вибачте!\nНе вдалося получити дані про місто."
         case _:
@@ -68,6 +71,7 @@ def get_weather(city):
 
 
 async def choose_city(message: types.Message, state: FSMContext):
+    global city
     chat_id = message.chat.id
     await bot.send_message(chat_id=chat_id, text="Секунду...")
     if message.text == "Гусятин":
@@ -75,7 +79,7 @@ async def choose_city(message: types.Message, state: FSMContext):
     else:
         city = tss.google(message.text, to_language='en')
     with open("json/weather.json", 'w') as weather:
-        json.dump({message.from_user.id: city}, weather)
+        json.dump({message.from_user.id: city}, weather, ensure_ascii=False)
     
     await bot.send_message(chat_id=chat_id, text=get_weather(city))
     

@@ -77,15 +77,25 @@ async def text(message: types.Message, state: FSMContext):
         await bot.send_message(chat_id=chat_id, text="Це може зайняти деякий час...")
         match data.get("used_translator"):
             case "google":
-                await bot.send_message(chat_id=chat_id, text=tss.google(text, to_language=data.get("language")))
+                await bot.send_message(chat_id=chat_id, text=str(
+                    tss.google(text,
+                            to_language=str(data.get("language")))))
             case "bing":
-                await bot.send_message(chat_id=chat_id, text=tss.bing(text, to_language=data.get("language")))
+                await bot.send_message(chat_id=chat_id, text=str(
+                    tss.bing(text,
+                            to_language=str(data.get("language")))))
             case "yandex": # Does not work in Ukraine
-                await bot.send_message(chat_id=chat_id, text=tss.yandex(text, to_language=data.get("language")))
+                await bot.send_message(chat_id=chat_id, text=str(
+                    tss.yandex(text,
+                            to_language=str(data.get("language")))))
             case "youdao":
-                await bot.send_message(chat_id=chat_id, text=tss.youdao(text, to_language=data.get("language")))
+                await bot.send_message(chat_id=chat_id, text=str(
+                    tss.youdao(text,
+                            to_language=str(data.get("language")))))
             case "caiyun":
-                await bot.send_message(chat_id=chat_id, text=tss.caiyun(text, to_language=data.get("language")))
+                await bot.send_message(chat_id=chat_id, text=str(
+                    tss.caiyun(text,
+                            to_language=str(data.get("language")))))
             case _:
                 await bot.send_message(chat_id=chat_id, text="Вибраний вами перекладач не знайдений\nнапишіть !report"
                                                              " або /report з рекомендацією щоб я добавив цей "

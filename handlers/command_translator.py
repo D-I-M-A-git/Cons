@@ -8,6 +8,7 @@ import translators.server as tss
 
 from create_bot import bot
 from states.translator import Translator as ts
+from keyboards.transtalor import *
 
 
 async def translation(message: types.Message):
@@ -15,53 +16,55 @@ async def translation(message: types.Message):
     Функція для запуску перекладача
     Function to start the translator
     """
+    await ts.trans.set()
     chat_id = message.chat.id
-    await bot.send_message(chat_id=chat_id, text="Ви хочете використати перекладач?\nБудь ласка напишіть який"
-                                                 " перекладач ви хочете використати.")
-
-    await ts.use.set()
+    await bot.send_message(chat_id=chat_id, text="Ви який перекладач хочете використати?", reply_markup=choosing_translator)
 
 
-async def used_translator(message: types.Message, state: FSMContext):
+async def used_translator(callback_query: types.CallbackQuery, state: FSMContext):
     """
     Статус для вибору перекладача
     Status for choosing a translator
     """
-    chat_id = message.chat.id
-    use_translator = message.text.lower()
+    print(callback_query.data)
+    if callback_query.data == "exit":
+        await state.finish()
+        await bot.edit_message_text(chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id,
+                                    text="Ви вийшли!")
+    else:
+        await ts.next()
+        chat_id = callback_query.message.chat.id
+        use_translator = callback_query.data.split(":")[1]
+        message_id = callback_query.message.message_id
 
-    async with state.proxy() as data:
-        data["used_translator"] = use_translator
-    
-    text = """
-           Чудово!
-        Тепер напишіть на яку мову перекласти
-        (у скорочиній формі)
-           Англійська - en
-           Німеська - de
-           Українська - uk
-           Китайська? - zh
-           """
-    await bot.send_message(chat_id=chat_id, text=text)
-
-    await ts.next()
+        async with state.proxy() as data:
+            data["used_translator"] = use_translator
+        text = "Чудово!\nТепер виберіть мову."
+        await bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                    reply_markup=choosing_language,
+                                    text=text)
 
 
-async def language(message: types.Message, state: FSMContext):
+async def language(callback_query: types.CallbackQuery, state: FSMContext):
     """
     Статус для вибору мови
     Status for language selection
     """
-    chat_id = message.chat.id
-    language = message.text.lower()
+    if callback_query.data == "exit":
+        await state.finish()
+        await bot.edit_message_text(chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id,
+                                    text="Ви вийшли!")
+    else:
+        await ts.next()
+        chat_id = callback_query.message.chat.id
+        message_id = callback_query.message.message_id
+        language = callback_query.data.split(":")[1]
 
-    async with state.proxy() as data:
-        data["language"] = language
+        async with state.proxy() as data:
+            data["language"] = language
+        await bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                    text="Пишіть повідомлення яке треба перекласти")
     
-    await bot.send_message(chat_id=chat_id, text="Чудово тепер можете надсилати текст")
-
-    await ts.next()
-
 
 async def text(message: types.Message, state: FSMContext):
     """
@@ -70,7 +73,6 @@ async def text(message: types.Message, state: FSMContext):
     """
     chat_id = message.chat.id
     text = message.text
-
     data = await state.get_data()
 
     try:
@@ -112,6 +114,6 @@ def register_handler_translation(dp: Dispatcher):
     Registration translation
     """
     dp.register_message_handler(translation, commands=["translate"])
-    dp.register_message_handler(used_translator, state=ts.use)
-    dp.register_message_handler(language, state=ts.language)
+    dp.register_callback_query_handler(used_translator, state=ts.trans)
+    dp.register_callback_query_handler(language, state=ts.lang)
     dp.register_message_handler(text, state=ts.text)

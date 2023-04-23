@@ -1,6 +1,7 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
 class Translator(StatesGroup):
-    use = State()
-    language = State()
+    trans = State()
+    lang = State()
     text = State()
+    select_manually = State()

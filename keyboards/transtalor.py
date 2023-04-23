@@ -1,0 +1,27 @@
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+
+choosing_translator = InlineKeyboardMarkup()
+google = InlineKeyboardButton(text="Google", callback_data="tr:google")
+choosing_translator.insert(google)
+bing = InlineKeyboardButton(text="Bing", callback_data="tr:bing")
+choosing_translator.insert(bing)
+yandex = InlineKeyboardButton(text="Yandex 🤨", callback_data="tr:yandex")
+choosing_translator.insert(yandex)
+youdao = InlineKeyboardButton(text="Youdao", callback_data="tr:youdao")
+choosing_translator.insert(youdao)
+exit_button = InlineKeyboardButton(text="Вийти", callback_data="exit")
+choosing_translator.insert(exit_button)
+
+choosing_language = InlineKeyboardMarkup()
+ua = InlineKeyboardButton(text="Українська", callback_data="lang:uk")
+choosing_language.insert(ua)
+de = InlineKeyboardButton(text="Німецька", callback_data="lang:de")
+choosing_language.insert(de)
+en = InlineKeyboardButton(text="Англійська", callback_data="lang:en")
+choosing_language.insert(en)
+zh = InlineKeyboardButton(text="Китайська?", callback_data="lang:zh")
+choosing_language.insert(zh)
+select_manually = InlineKeyboardButton(text="Вибрати вручну", callback_data="lang:select_manually")
+choosing_language.insert(select_manually)
+choosing_language.insert(exit_button)

@@ -22,6 +22,7 @@ def answer_chat(text):
                     max_tokens=500
         )
         return response['choices'][0]['message']['content'].replace("```", "**")
+    
     except Exception as ex:
         if "That model is currently overloaded with other requests." in ex:
             return f"Вибачте але зараз сервери перегруженні і вони не відповідають на запити."
